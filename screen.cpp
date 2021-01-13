@@ -80,11 +80,22 @@ void screen::reset_all_pixels_async()
 
 void screen::fade_all_pixels()
 {
+    std::vector<int> trash;
     for (size_t i = 0; i < this->pixel_buffer.size(); i+= PIXEL_ENTRY_SIZE)
     {
         this->pixel_buffer.at(i + 2) -= 1.0 / this->trail_length;
         this->pixel_buffer.at(i + 3) -= 1.0 / this->trail_length;
         this->pixel_buffer.at(i + 4) -= 1.0 / this->trail_length;
+
+        if (this->pixel_buffer.at(i + 2) < 0 && this->pixel_buffer.at(i + 3) < 0 && this->pixel_buffer.at(i + 4) < 0)
+        {
+            trash.push_back(i);
+        }
+    }
+
+    for (int i : trash)
+    {
+        reset_pixel(i);
     }
 }
 

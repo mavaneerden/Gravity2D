@@ -10,17 +10,16 @@
 screen s;
 MouseState mouse;
 std::vector<Body> bodies;
+std::vector<Body> bodyQueue;
 Vec2 centerBodyVelocity = Vec2::zero;
 Vec2 centerBodyPosition = Vec2::zero;
 int centerBodyIndex = -1;
 int time_passed = 0;
-int trail_timer = 0;
 bool paused = false;
 
 void changeCenter()
 {
     s.reset_all_pixels_async();
-    trail_timer = 0;
 }
 
 void increaseCenterIndex()
@@ -82,16 +81,13 @@ void draw()
 
         glutSwapBuffers();
         time_passed++;
-        trail_timer++;
-
-        if (trail_timer > s.trail_length) {
-            for (size_t i = 0; i < bodies.size(); i++)
-            {
-                s.reset_pixel(i);
-            }
-
-        }
     }
+
+    for (size_t i = 0; i < bodyQueue.size(); i++)
+    {
+        bodies.push_back(bodyQueue[i]);
+    }
+    bodyQueue.clear();
 }
 
 void resize_window(int width, int height)
@@ -102,21 +98,23 @@ void resize_window(int width, int height)
 
 void initialize_bodies()
 {
-    /* Two moons */
-    bodies.push_back(Body(33.3, Vec2(s.width / 2, s.height / 2)));
-    bodies[0].color = Color(1, 1, 0);
-    bodies.push_back(Body(0.1, Vec2(s.width / 2, s.height / 6)));
-    bodies.push_back(Body(0.00003, Vec2(s.width / 2, bodies[1].position.y - 2)));
-    bodies.push_back(Body(0.00002, Vec2(s.width / 2, bodies[1].position.y - 5)));
-    bodies.push_back(Body(0.00001, Vec2(s.width / 2, bodies[1].position.y - 8)));
-    bodies[1].setCircularVelocity(bodies[0]);
-    bodies[2].setCircularVelocity(bodies[1]);
-    bodies[3].setCircularVelocity(bodies[1]);
-    bodies[4].setCircularVelocity(bodies[1]);
-    bodies[1].color = Color(0.0, 0.0, 1.0);
-    bodies[2].color = Color(1.0, 0.0, 0.0);
-    bodies[3].color = Color(0.0, 1.0, 0.0);
-    bodies[4].color = Color(1.0, 0.0, 1.0);
+    /* Three moons */
+    // bodies.push_back(Body(33.3, Vec2(s.width / 2, s.height / 2)));
+    // bodies[0].color = Color(1, 1, 0);
+    // bodies.push_back(Body(0.1, Vec2(s.width / 2, s.height / 6)));
+    // bodies.push_back(Body(0.00003, Vec2(s.width / 2, bodies[1].position.y - 2)));
+    // bodies.push_back(Body(0.00002, Vec2(s.width / 2, bodies[1].position.y - 5)));
+    // bodies.push_back(Body(0.00001, Vec2(s.width / 2, bodies[1].position.y - 8)));
+    // bodies.push_back(Body(0.2, Vec2(s.width / 2, s.height / 2 - 100)));
+    // bodies[1].setCircularVelocity(bodies[0]);
+    // bodies[2].setCircularVelocity(bodies[1]);
+    // bodies[3].setCircularVelocity(bodies[1]);
+    // bodies[4].setCircularVelocity(bodies[1]);
+    // bodies[5].setCircularVelocity(bodies[0]);
+    // bodies[1].color = Color(0.0, 0.0, 1.0);
+    // bodies[2].color = Color(1.0, 0.0, 0.0);
+    // bodies[3].color = Color(0.0, 1.0, 0.0);
+    // bodies[4].color = Color(1.0, 0.0, 1.0);
 
     /* Double planet */
     // bodies.push_back(Body(33.3, Vec2(s.width / 2, s.height / 2)));
@@ -197,6 +195,19 @@ void key_pressed(unsigned char key, int x, int y)
 void mouse_clicked(int button, int state, int x, int y)
 {
     mouse.changeState(button, state);
+
+    switch (button)
+    {
+    case GLUT_LEFT:
+        if (!mouse.leftButtonPressed)
+        {
+            bodies.push_back(Body(1, Vec2(x, s.height - y)));
+        }
+        break;
+
+    default:
+        break;
+    }
 }
 
 void mouse_moved(int x, int y)
