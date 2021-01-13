@@ -70,7 +70,6 @@ void screen::reset_pixel(int i)
 
 void screen::reset_all_pixels()
 {
-    this->vertex_buffer.clear();
     this->pixel_buffer.clear();
 }
 

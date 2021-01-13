@@ -47,12 +47,6 @@ void do_pysics()
         bodies[i].calculateVelocity();
     }
 
-    // std::vector<Vec2> velocities;
-
-    // for (auto body : bodies)
-    // {
-    //     velocities.push_back(body.velocity);
-    // // }
     centerBodyVelocity = centerBodyIndex >= 0 ? bodies[centerBodyIndex].velocity : Vec2::zero;
     centerBodyPosition = centerBodyIndex >= 0 ? bodies[centerBodyIndex].position - s.center : Vec2::zero;
 
@@ -63,15 +57,6 @@ void do_pysics()
         bodies[i].velocity = bodies[i].velocity + centerBodyVelocity;
         bodies[i].position = bodies[i].position - centerBodyPosition;
     }
-
-
-
-
-
-    // for (size_t i = 0; i < bodies.size(); i++)
-    // {
-    //     bodies[i].calculatePosition();
-    // }
 }
 
 void bodies_after_draw()
@@ -188,20 +173,13 @@ void special_key_pressed(int key, int x, int y)
     {
     case GLUT_KEY_LEFT:
         decreaseCenterIndex();
-        // centerBodyIndex = centerBodyIndex > -1 ? centerBodyIndex - 1 : bodies.size() - 1;
-        // s.reset_all_pixels_async();
-        // trail_timer = 0;
         break;
     case GLUT_KEY_RIGHT:
         increaseCenterIndex();
-        // centerBodyIndex = centerBodyIndex < (int) bodies.size() - 1 ? centerBodyIndex + 1 : -1;
-        // s.reset_all_pixels_async();
-        // trail_timer = 0;
         break;
     default:
         break;
     }
-    std::cout << centerBodyIndex << std::endl;
 }
 
 void key_pressed(unsigned char key, int x, int y)

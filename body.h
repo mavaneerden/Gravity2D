@@ -2,7 +2,7 @@
 #define BODY_H_
 
 #include "vec2.h"
-#include "vertex.h"
+#include "color.h"
 #include <vector>
 
 // Factor: 1e16

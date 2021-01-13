@@ -1,5 +1,5 @@
 PROGNAME = main
-SRCFILES = main.cpp screen.cpp color.cpp vec2.cpp vertex.cpp body.cpp mouse.cpp
+SRCFILES = main.cpp screen.cpp color.cpp vec2.cpp body.cpp mouse.cpp
 
 CC = g++
 

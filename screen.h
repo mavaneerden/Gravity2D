@@ -21,7 +21,6 @@ private:
     unsigned int vbo;
     float world_width;
     float world_height;
-    std::vector<Vertex> vertex_buffer;
     std::vector<float> pixel_buffer;
     bool reset_pixels = false;
 
